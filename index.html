@@ -44,6 +44,13 @@
             100% { background-position: 0% 50%; }
         }
 
+        /* Gradient Border Animation Keyframes - Ugyanazt az animációt használja mint a CTA gombok */
+        @keyframes border-glow-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         /* CTA gomb egyedi stílusa az animált gradienttel */
         .cta-button {
             /* Az alap gradient, ami sokkal nagyobb, mint maga a gomb, így tud mozogni */
@@ -65,6 +72,44 @@
             transform: translateY(-2px); /* Finom emelkedés hoverre */
             /* Még erősebb árnyék hoverre (a korábbi merész dizájnból) */
             box-shadow: 0 15px 20px -3px rgba(0, 0, 0, 0.3), 0 6px 8px -2px rgba(0, 0, 0, 0.1); 
+        }
+
+        /* ÚJ: Animált Gradient Keret Konténer Stílusa */
+        .gradient-border-container {
+            /* Alapvető stílusok: Fehér háttér, kerekített sarkok, árnyék */
+            /* P-1 helyett a paddingot beállítjuk: a tényleges keret (a before elemmel) a padding helyén jelenik meg */
+            @apply p-1 bg-white shadow-2xl rounded-xl relative;
+            
+            /* Létrehozzuk a látszólagos keretet a :before álelem használatával */
+            position: relative;
+            overflow: hidden; /* Elrejti a gradient túláramlását a sarkokban */
+        }
+        
+        .gradient-border-container::before {
+            content: '';
+            position: absolute;
+            top: -2px; 
+            left: -2px; 
+            right: -2px; 
+            bottom: -2px; /* Kicsit nagyobb, mint a szülő, hogy keretként jelenjen meg */
+            /* Ugyanaz a gradient, mint a CTA gombokon */
+            background: linear-gradient(135deg, #C6BBD1, #CBCBD7, #D5BDCB, #C6BBD1);
+            background-size: 300% 300%;
+            border-radius: 14px; /* Kicsit nagyobb, mint a szülő rounded-xl (12px), hogy a keret szépen körbefogja */
+            z-index: 0;
+            opacity: 1; 
+            animation: border-glow-animation 4s linear infinite; /* Alkalmazzuk az animációt */
+        }
+
+        /* Ezt az elemet használjuk a valódi tartalomként, ami a keret fölé kerül */
+        /* Itt található a JotForm beágyazás. Fontos, hogy ez ne legyen átlátszó, ha Card stílusú az űrlap. */
+        .gradient-border-content {
+            position: relative;
+            z-index: 1; /* A tartalom a keret fölé kerül */
+            padding: 24px; /* Belső padding a tartalomhoz */
+            background-color: var(--color-bg-light); /* Fehér/világosszürke háttér */
+            border-radius: 10px; /* Kicsit kisebb, mint a külső border-radius */
+            height: 100%; /* Kitölti a szülőt */
         }
         
         /* Gradient Szöveg Stílus a Habityield kiemeléséhez */
@@ -123,16 +168,18 @@
                 </div>
 
                 <!-- JOBB OLDAL (JotForm Beágyazás) -->
-                <!-- A konténer most transzparens, árnyékmentes, és keret nélküli -->
                 <div class="md:col-span-6 w-full mt-8 md:mt-0 max-w-full"> 
                     <!-- Form Cím (a Habityield font és szín stílusában) -->
                     <h3 class="text-2xl font-[var(--font-heading)] text-[var(--color-text-dark)] mb-4 text-center">Jelentkezés a Stratégiai Hívásra</h3>
 
-                    <!-- JotForm Helye -->
-                    <!-- Eltávolítottam a bg-white, shadow-2xl, és border osztályokat a teljes transzparencia érdekében -->
-                    <div id="jotform-embed-wrapper" class="p-4 rounded-xl">
-                        <!-- A felhasználó által megadott, frissített űrlap kódja beillesztve -->
-                        <script type="text/javascript" src="https://form.jotform.com/jsform/253114271999060"></script>
+                    <!-- JotForm Helye - AZ ANIMÁLT GRADIENT KERET KONTÉNER -->
+                    <!-- Megjegyzés: Ha a JotForm Card stílust használja, az iframe-ben lévő tartalomnak saját, 
+                         fix fehér háttere lehet, amit a külső kerettel együtt helyezünk el. -->
+                    <div class="gradient-border-container">
+                        <div class="gradient-border-content" id="jotform-embed-wrapper">
+                            <!-- A felhasználó által megadott, frissített űrlap kódja beillesztve -->
+                            <script type="text/javascript" src="https://form.jotform.com/jsform/253114271999060"></script>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -351,7 +398,7 @@
             <!-- CTA Gomb 2 -->
             <a href="https://habityield.hu/strategiai-hivas" target="_blank" class="cta-button inline-block py-5 px-12 rounded-xl text-[var(--color-text-dark)] font-extrabold text-xl uppercase tracking-wider shadow-2xl flex items-center justify-center space-x-3 mx-auto">
                 <!-- Inline SVG Icon (Calendar/Booking) -->
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2004/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                 <span>Kérem a Személyes Stratégiámat!</span>
             </a>
         </div>
@@ -399,7 +446,7 @@
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- 8. Footer -->
     <footer class="py-10 px-4 md:px-8 bg-gray-100">
         <div class="max-w-7xl mx-auto text-center text-sm text-gray-600">
             <p>&copy; 2024 Habityield. Minden jog fenntartva.</p>
@@ -407,7 +454,7 @@
         </div>
     </footer>
 
-    <!-- JS a transzparenciához: aggresszíven megcélozza a JotForm iframe-et, amint az betöltődik. -->
+    <!-- JS a transzparenciához: agresszíven megcélozza a JotForm iframe-et, amint az betöltődik. -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const wrapper = document.getElementById('jotform-embed-wrapper');
@@ -423,14 +470,20 @@
                             observer.disconnect(); // Megtaláltuk, leállítjuk a figyelést
                             
                             // 1. Iframe attribútumok beállítása a transzparencia támogatásához
+                            // Bár a Card Style Form saját háttérrel rendelkezik, a külső kerethez szükség lehet az alábbi beállításokra
                             iframe.setAttribute('allowTransparency', 'true');
                             
-                            // 2. CSS stílus beállítása transzparens háttérre
+                            // 2. CSS stílus beállítása:
+                            // Mivel Card style, valószínűleg a belső form konténerében van a fehér háttér,
+                            // de biztosítjuk, hogy az iframe konténer maga ne takarjon ki semmit.
                             iframe.style.backgroundColor = 'transparent';
                             iframe.style.boxShadow = 'none';
                             iframe.style.border = 'none';
+                            iframe.style.width = '100%'; // Kitölti a belső konténert
+                            iframe.style.height = '100%'; // Kitölti a belső konténert
+                            iframe.style.minHeight = '650px'; // Megfelelő alap magasság az űrlaphoz (esetleg 700px)
 
-                            console.log("JotForm iframe transzparenciája beállítva. A belső tartalom transzparenciájához a JotForm szerkesztőjére lehet szükség.");
+                            console.log("JotForm iframe transzparenciája és mérete beállítva. Gradient keret alkalmazva.");
                         }
                     }
                 }
