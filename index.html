@@ -7,7 +7,7 @@
     <!-- Tailwind CSS betöltése (CDN-ről, ami tökéletes GitHub Pages-re) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts betöltése: Montserrat (Fejlécek) és Lora (Szövegtörzs) -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     
     <style>
         /* Egyedi CSS a wireframe-hez, a megadott tipográfia és színek beállításához */
@@ -26,7 +26,7 @@
             color: var(--color-text-dark);
             background-color: var(--color-bg-light);
             line-height: 1.7; /* A jobb olvashatóság érdekében */
-            /* Megakadályozza a horizontális túlcsordulást, ami a zoom-outot okozza mobilon */
+            /* JAVÍTÁS: Megakadályozza a horizontális túlcsordulást, ami a zoom-outot okozza mobilon */
             overflow-x: hidden; 
         }
 
@@ -37,15 +37,8 @@
             font-weight: 700;
         }
         
-        /* A Carrd stílusú, mozgó gradient animáció kulcskockái */
+        /* ÚJ: A Carrd stílusú, mozgó gradient animáció kulcskockái */
         @keyframes moving-gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Gradient Border Animation Keyframes - Ugyanazt az animációt használja mint a CTA gombok */
-        @keyframes border-glow-animation {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
@@ -73,44 +66,6 @@
             /* Még erősebb árnyék hoverre (a korábbi merész dizájnból) */
             box-shadow: 0 15px 20px -3px rgba(0, 0, 0, 0.3), 0 6px 8px -2px rgba(0, 0, 0, 0.1); 
         }
-
-        /* ÚJ: Animált Gradient Keret Konténer Stílusa */
-        .gradient-border-container {
-            /* Alapvető stílusok: Fehér háttér, kerekített sarkok, árnyék */
-            /* P-1 helyett a paddingot beállítjuk: a tényleges keret (a before elemmel) a padding helyén jelenik meg */
-            @apply p-1 bg-white shadow-2xl rounded-xl relative;
-            
-            /* Létrehozzuk a látszólagos keretet a :before álelem használatával */
-            position: relative;
-            overflow: hidden; /* Elrejti a gradient túláramlását a sarkokban */
-        }
-        
-        .gradient-border-container::before {
-            content: '';
-            position: absolute;
-            top: -2px; 
-            left: -2px; 
-            right: -2px; 
-            bottom: -2px; /* Kicsit nagyobb, mint a szülő, hogy keretként jelenjen meg */
-            /* Ugyanaz a gradient, mint a CTA gombokon */
-            background: linear-gradient(135deg, #C6BBD1, #CBCBD7, #D5BDCB, #C6BBD1);
-            background-size: 300% 300%;
-            border-radius: 14px; /* Kicsit nagyobb, mint a szülő rounded-xl (12px), hogy a keret szépen körbefogja */
-            z-index: 0;
-            opacity: 1; 
-            animation: border-glow-animation 4s linear infinite; /* Alkalmazzuk az animációt */
-        }
-
-        /* Ezt az elemet használjuk a valódi tartalomként, ami a keret fölé kerül */
-        /* Itt található a JotForm beágyazás. Fontos, hogy ez ne legyen átlátszó, ha Card stílusú az űrlap. */
-        .gradient-border-content {
-            position: relative;
-            z-index: 1; /* A tartalom a keret fölé kerül */
-            padding: 24px; /* Belső padding a tartalomhoz */
-            background-color: var(--color-bg-light); /* Fehér/világosszürke háttér */
-            border-radius: 10px; /* Kicsit kisebb, mint a külső border-radius */
-            height: 100%; /* Kitölti a szülőt */
-        }
         
         /* Gradient Szöveg Stílus a Habityield kiemeléséhez */
         .gradient-text {
@@ -136,83 +91,85 @@
         details summary::-webkit-details-marker {
             display: none;
         }
-
     </style>
 </head>
 <body class="antialiased">
 
     <!-- Navigáció (Minimális, a márkához illeszkedő) -->
+    <!-- MÓDOSÍTVA: Sötétebb (gray-200/50) háttérre váltva és az árnyék/szegély eltávolítva. -->
     <header class="w-full py-4 px-4 md:px-8 fixed top-0 z-10 bg-gray-200/50 backdrop-blur-md">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <span class="text-xl font-bold font-[var(--font-heading)] tracking-wider text-[var(--color-accent)]">Habityield.</span>
+            <!-- JAVÍTÁS: A navigációs link most már egy új lapon nyitja meg a CTA-t -->
             <a href="https://habityield.hu/strategiai-hivas" target="_blank" class="hidden sm:block text-sm font-semibold hover:text-[var(--color-accent)] transition duration-200">Stratégiai Hívás</a>
         </div>
     </header>
 
-    <!-- 1. Hős Szekció (Hero Section) - Text + Form + Reviews -->
-    <section class="flex items-center justify-center pt-24 pb-16 px-4 md:px-8 bg-[var(--color-bg-light)]">
+    <!-- 1. Hős Szekció (Hero Section) - Kétoszlopos elrendezés (Text + Reviews) -->
+    <section class="min-h-screen flex items-center justify-center pt-20 pb-16 px-4 md:px-8 bg-[var(--color-bg-light)]">
         <div class="max-w-6xl mx-auto w-full"> 
             
-            <!-- FŐ KONTÉNER: 2 oszlopra osztva (Szöveg 50%, Form 50%) -->
-            <div class="grid md:grid-cols-12 gap-12 items-start mb-16">
+            <!-- Fő Konténer: 2 oszlopra osztva (Text 70%, Reviews 30%) asztali nézetben -->
+            <div class="grid md:grid-cols-12 gap-12 items-center mb-10">
                 
                 <!-- BAL OLDAL (Szöveg, H1/H2) -->
-                <div class="md:col-span-6 text-center md:text-left w-full space-y-4"> 
-                    <h1 class="text-3xl sm:text-4xl lg:text-7xl mb-4 font-[var(--font-heading)] font-bold tracking-tight">
+                <!-- JAVÍTÁS: Hozzáadva a w-full, hogy ne lógjon ki a mobil nézetben -->
+                <div class="md:col-span-7 text-center md:text-left w-full"> 
+                    <!-- H1: Modern Sans-Serif, balra igazítva -->
+                    <!-- JAVÍTÁS: text-4xl csökkentve text-3xl-re a legkisebb képernyőkön -->
+                    <h1 class="text-3xl sm:text-4xl lg:text-7xl mb-6 font-[var(--font-heading)] font-bold tracking-tight">
                         A rendszer, ami a háttérből támogat és elvezet a fenntartható csúcsteljesítményhez.
                     </h1>
+                    <!-- H2: Kicsit visszafogottabb, balra igazítva -->
                     <h2 class="text-xl sm:text-2xl lg:text-3xl font-[var(--font-body)] font-normal">
                         Szabadíts fel mentális energiát arra, ami igazán számít. Hogy ne csak túléld, hanem valóban megéld a mindennapokat.
                     </h2>
-                    <p class="mt-6 text-lg text-gray-700">Kezdd el utazásod ma!</p>
                 </div>
 
-                <!-- JOBB OLDAL (JotForm Beágyazás) -->
-                <div class="md:col-span-6 w-full mt-8 md:mt-0 max-w-full"> 
-                    <!-- Form Cím (a Habityield font és szín stílusában) -->
-                    <h3 class="text-2xl font-[var(--font-heading)] text-[var(--color-text-dark)] mb-4 text-center">Jelentkezés a Stratégiai Hívásra</h3>
-
-                    <!-- JotForm Helye - AZ ANIMÁLT GRADIENT KERET KONTÉNER -->
-                    <!-- Megjegyzés: Ha a JotForm Card stílust használja, az iframe-ben lévő tartalomnak saját, 
-                         fix fehér háttere lehet, amit a külső kerettel együtt helyezünk el. -->
-                    <div class="gradient-border-container">
-                        <div class="gradient-border-content" id="jotform-embed-wrapper">
-                            <!-- A felhasználó által megadott, frissített űrlap kódja beillesztve -->
-                            <script type="text/javascript" src="https://form.jotform.com/jsform/253114271999060"></script>
+                <!-- JOBB OLDAL (Vélemény Kártyák - Social Proof) -->
+                <!-- JAVÍTÁS: Hozzáadva a max-w-full, hogy ne lógjon ki a mobil nézetben -->
+                <div class="md:col-span-5 w-full mt-8 md:mt-0 max-w-full">
+                    <p class="text-lg text-gray-700 font-semibold mb-3 text-center md:text-right">Akik már használják:</p>
+                    <!-- Vélemény Kártyák, egymás alá rendezve (max-width miatt) -->
+                    <div class="space-y-4 max-w-sm mx-auto md:max-w-full">
+                        
+                        <!-- VÉLEMÉNY 1 -->
+                        <div class="p-2">
+                            <img src="https://i.imgur.com/3wkMY5Z.png" 
+                                 alt="Google vélemény 1: 'Peti'" 
+                                 class="w-full h-auto rounded-lg"
+                                 onerror="this.onerror=null; this.src='https://placehold.co/400x100/EEEEEE/333333?text=Review+1'">
+                        </div>
+                        
+                        <!-- VÉLEMÉNY 2 -->
+                        <div class="p-2">
+                            <img src="https://placehold.co/400x100/EEEEEE/333333?text=Review+2" 
+                                 alt="Google vélemény 2: 'Anna'" 
+                                 class="w-full h-auto rounded-lg">
+                        </div>
+                        
+                        <!-- VÉLEMÉNY 3 -->
+                        <div class="p-2">
+                            <img src="https://placehold.co/400x100/EEEEEE/333333?text=Review+3" 
+                                 alt="Google vélemény 3: 'Gábor'" 
+                                 class="w-full h-auto rounded-lg">
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- VÉLEMÉNY KÁRTYÁK SZEKCIÓ (Horizontálisan a H1/Form alatt) -->
-            <div class="mt-8 w-full">
-                 <p class="text-lg text-gray-700 font-semibold mb-6 text-center font-[var(--font-heading)]">Akik már használják:</p>
-
-                <!-- Vélemény Kártyák Horizontálisan Flex-box-szal -->
-                <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6 max-w-4xl mx-auto">
-                    
-                    <!-- VÉLEMÉNY 1 -->
-                    <div class="sm:w-1/3 w-full p-2 border border-gray-200 rounded-lg bg-white shadow-md">
-                        <img src="https://i.imgur.com/3wkMY5Z.png" 
-                                alt="Google vélemény 1: 'Peti'" 
-                                class="w-full h-auto rounded-md"
-                                onerror="this.onerror=null; this.src='https://placehold.co/400x100/EEEEEE/333333?text=Review+1'">
-                    </div>
-                    
-                    <!-- VÉLEMÉNY 2 -->
-                    <div class="sm:w-1/3 w-full p-2 border border-gray-200 rounded-lg bg-white shadow-md">
-                        <img src="https://placehold.co/400x100/EEEEEE/333333?text=Review+2" 
-                                alt="Google vélemény 2: 'Anna'" 
-                                class="w-full h-auto rounded-md">
-                    </div>
-                    
-                    <!-- VÉLEMÉNY 3 -->
-                    <div class="sm:w-1/3 w-full p-2 border border-gray-200 rounded-lg bg-white shadow-md">
-                        <img src="https://placehold.co/400x100/EEEEEE/333333?text=Review+3" 
-                                alt="Google vélemény 3: 'Gábor'" 
-                                class="w-full h-auto rounded-md">
-                    </div>
-                </div>
+            <!-- CTA Gomb Konténer (Teljes szélességben a két oszlop alatt) -->
+            <div class="text-center mt-12 md:mt-0">
+                <p class="mb-6 text-xl text-gray-700 max-w-3xl mx-auto">
+                    Készen állsz arra, hogy a belső rendszereidet a legmagasabb szintre optimalizáld?
+                </p>
+                <!-- CTA Gomb 1 - JAVÍTÁS: Külső link (target="_blank") hozzáadva -->
+                <a href="https://habityield.hu/strategiai-hivas" target="_blank" class="cta-button inline-block py-5 px-12 rounded-xl text-[var(--color-text-dark)] font-extrabold text-xl uppercase tracking-wider shadow-2xl flex items-center justify-center space-x-3 mx-auto">
+                    <!-- Inline SVG Icon (Calendar/Booking) -->
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    <span>Kérem a Személyes Stratégiámat!</span>
+                </a>
+                <p class="mt-4 text-sm text-gray-500">Ingyenes, 45 perces, kötelezettség nélküli hívás.</p>
             </div>
             
         </div>
@@ -284,7 +241,7 @@
                             <span class="font-[var(--font-body)]">**Komplexitást** ad a már így is túlterhelt naphoz.</span>
                         </li>
                         <li class="flex items-start">
-                            <svg class="w-6 h-6 mr-3 text-gray-500 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2003/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <svg class="w-6 h-6 mr-3 text-gray-500 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2003/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             <span class="font-[var(--font-body)]">Csak **rövid távú** "tűzoltás".</span>
                         </li>
                     </ul>
@@ -304,7 +261,7 @@
                             <span class="font-[var(--font-body)]">Jelentősen **csökkenti a Kognitív Terhelést**.</span>
                         </li>
                         <li class="flex items-start">
-                            <svg class="w-6 h-6 mr-3 text-[var(--color-accent)] flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2003/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <svg class="w-6 h-6 mr-3 text-[var(--color-accent)] flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             <span class="font-[var(--font-body)]">**Hosszú távú, fenntartható** teljesítményt garantál.</span>
                         </li>
                     </ul>
@@ -353,6 +310,7 @@
     <section class="py-20 sm:py-32 px-4 md:px-8 bg-[var(--color-bg-light)]">
         <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
             <!-- Bal Oszlop: Kép Helykitöltő -->
+            <!-- JAVÍTÁS: Hozzáadva a max-w-full, hogy ne lógjon ki a mobil nézetben -->
             <div class="h-96 w-full max-w-full rounded-xl overflow-hidden bg-gray-300 flex items-center justify-center shadow-lg">
                 <!-- Kép Helykitöltő, hangsúlyozva a "stratéga" hangulatot -->
                 <span class="text-xl text-gray-600 font-[var(--font-heading)]">Alapító Fotó Helye (Stratégikus, Empatikus)</span>
@@ -390,15 +348,15 @@
                     Személyre szabott táplálkozási és mozgásterv.
                 </li>
                 <li class="flex items-start">
-                    <svg class="w-6 h-6 mr-3 text-[var(--color-accent)] flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2003/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <svg class="w-6 h-6 mr-3 text-[var(--color-accent)] flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     Egy fenntartható rendszer vázlata.
                 </li>
             </ul>
 
-            <!-- CTA Gomb 2 -->
+            <!-- CTA Gomb 2 - JAVÍTÁS: Külső link (target="_blank") hozzáadva -->
             <a href="https://habityield.hu/strategiai-hivas" target="_blank" class="cta-button inline-block py-5 px-12 rounded-xl text-[var(--color-text-dark)] font-extrabold text-xl uppercase tracking-wider shadow-2xl flex items-center justify-center space-x-3 mx-auto">
                 <!-- Inline SVG Icon (Calendar/Booking) -->
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2004/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                 <span>Kérem a Személyes Stratégiámat!</span>
             </a>
         </div>
@@ -436,7 +394,7 @@
                 <details class="border-b border-gray-200 py-4 cursor-pointer group">
                     <summary class="flex justify-between items-center text-xl font-semibold font-[var(--font-heading)]">
                         "Miben más ez, mint egy online edzésterv?"
-                        <svg class="w-5 h-5 transition duration-300 transform group-open:rotate-180 text-[var(--color-accent)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2003/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        <svg class="w-5 h-5 transition duration-300 transform group-open:rotate-180 text-[var(--color-accent)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </summary>
                     <p class="mt-4 pb-2 text-lg text-gray-700 font-[var(--font-body)]">
                         Ez a szolgáltatás a gondolkodásmódról, a fókuszról, a döntéshozatalról és a regenerációról szól, nem pedig a súlyok emeléséről. Mi az alapvető rendszert építjük fel, ami lehetővé teszi, hogy *minden más* (beleértve az edzést) a helyére kerüljön. Ez a stratégiai szintű optimalizáció.
@@ -446,7 +404,7 @@
         </div>
     </section>
 
-    <!-- 8. Footer -->
+    <!-- Footer -->
     <footer class="py-10 px-4 md:px-8 bg-gray-100">
         <div class="max-w-7xl mx-auto text-center text-sm text-gray-600">
             <p>&copy; 2024 Habityield. Minden jog fenntartva.</p>
@@ -454,44 +412,5 @@
         </div>
     </footer>
 
-    <!-- JS a transzparenciához: agresszíven megcélozza a JotForm iframe-et, amint az betöltődik. -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const wrapper = document.getElementById('jotform-embed-wrapper');
-            if (!wrapper) return;
-
-            // MutationObserver: figyeli, ha új elem (az iframe) kerül a wrapperbe
-            const observer = new MutationObserver((mutationsList, observer) => {
-                for (const mutation of mutationsList) {
-                    if (mutation.type === 'childList') {
-                        // Keressük meg a JotForm által dinamikusan létrehozott iframe-et
-                        const iframe = Array.from(wrapper.children).find(el => el.tagName === 'IFRAME');
-                        if (iframe) {
-                            observer.disconnect(); // Megtaláltuk, leállítjuk a figyelést
-                            
-                            // 1. Iframe attribútumok beállítása a transzparencia támogatásához
-                            // Bár a Card Style Form saját háttérrel rendelkezik, a külső kerethez szükség lehet az alábbi beállításokra
-                            iframe.setAttribute('allowTransparency', 'true');
-                            
-                            // 2. CSS stílus beállítása:
-                            // Mivel Card style, valószínűleg a belső form konténerében van a fehér háttér,
-                            // de biztosítjuk, hogy az iframe konténer maga ne takarjon ki semmit.
-                            iframe.style.backgroundColor = 'transparent';
-                            iframe.style.boxShadow = 'none';
-                            iframe.style.border = 'none';
-                            iframe.style.width = '100%'; // Kitölti a belső konténert
-                            iframe.style.height = '100%'; // Kitölti a belső konténert
-                            iframe.style.minHeight = '650px'; // Megfelelő alap magasság az űrlaphoz (esetleg 700px)
-
-                            console.log("JotForm iframe transzparenciája és mérete beállítva. Gradient keret alkalmazva.");
-                        }
-                    }
-                }
-            });
-
-            // Elindítjuk a figyelést a gyermek elemek hozzáadására
-            observer.observe(wrapper, { childList: true });
-        });
-    </script>
 </body>
 </html>
