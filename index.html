@@ -12,7 +12,7 @@
     <style>
         /* Egyedi CSS a wireframe-hez, a megadott tipográfia és színek beállításához */
         :root {
-            --color-bg-light: #F5F5F5;
+            --color-bg-light: #F5F5F5; /* Világosszürke a szekció háttérnek */
             --color-bg-dark: #1A1A1A;
             --color-text-dark: #1A1A1A;
             --color-text-light: #F5F5F5;
@@ -24,7 +24,7 @@
         body {
             font-family: var(--font-body);
             color: var(--color-text-dark);
-            background-color: var(--color-bg-light);
+            background-color: var(--color-bg-light); /* Használja az új világosszürke színt */
             line-height: 1.7; /* A jobb olvashatóság érdekében */
             /* Megakadályozza a horizontális túlcsordulást, ami a zoom-outot okozza mobilon */
             overflow-x: hidden; 
@@ -76,8 +76,8 @@
 
         /* ÚJ: Animált Gradient Keret Konténer Stílusa */
         .gradient-border-container {
-            /* Alapvető stílusok: Fehér háttér, kerekített sarkok, árnyék */
-            @apply p-1 bg-white shadow-2xl rounded-xl relative;
+            /* Módosítva: A bg-white helyett átlátszóvá tesszük, de a shadow-t megtartjuk */
+            @apply p-1 bg-transparent shadow-2xl rounded-xl relative; 
             
             /* Létrehozzuk a látszólagos keretet a :before álelem használatával */
             position: relative;
@@ -94,7 +94,7 @@
             /* Ugyanaz a gradient, mint a CTA gombokon */
             background: linear-gradient(135deg, #C6BBD1, #CBCBD7, #D5BDCB, #C6BBD1);
             background-size: 300% 300%;
-            border-radius: 14px; /* Kicsit nagyobb, mint a szülő rounded-xl (12px), hogy a keret szépen körbefogja */
+            border-radius: 14px; /* Kicsit nagyobb, mint a külső rounded-xl (12px), hogy a keret szépen körbefogja */
             z-index: 0;
             opacity: 1; 
             animation: border-glow-animation 4s linear infinite; /* Alkalmazzuk az animációt */
@@ -104,8 +104,8 @@
         .gradient-border-content {
             position: relative;
             z-index: 1; /* A tartalom a keret fölé kerül */
-            /* Az iframe-hez eltávolítjuk a fix paddingot, de a háttér és a kerekítés marad */
-            background-color: var(--color-bg-light); /* Fehér/világosszürke háttér */
+            /* Módosítva: Átlátszó háttérre váltunk a var(--color-bg-light) helyett */
+            background-color: transparent; 
             border-radius: 10px; /* Kicsit kisebb, mint a külső border-radius */
             height: 100%; /* Kitölti a szülőt */
         }
@@ -192,7 +192,8 @@
                             <!-- Minup iframe beágyazás -->
                             <iframe 
                                 id="minup-form-embed"
-                                src="https://app.minup.io/embed/habityield/service/53689?hideBorder=true&hideTitle=true&canStartPayment=true" 
+                                <!-- MÓDOSÍTVA: Hozzáadva a &backgroundColor=transparent paraméter -->
+                                src="https://app.minup.io/embed/habityield/service/53689?hideBorder=true&hideTitle=true&canStartPayment=true&backgroundColor=transparent" 
                                 style="width: 100%; height: 620px;" 
                                 frameBorder="0"
                                 title="HabitYield Minup Űrlap"
@@ -476,19 +477,7 @@
     <!-- JavaScript a Payment Redirect kezeléséhez (Minup.io) -->
     <script type="text/javascript">
         // Ez a szkript kezeli a minup.io iframe-ből érkező üzeneteket, 
-        // különösen a fizetésre való átirányítást.
-        window.addEventListener("message", (event) => { 
-            // Biztonsági ellenőrzés: csak a minup.io-ról érkező üzeneteket fogadjuk el.
-            if (event.origin !== "https://app.minup.io") return; 
-            
-            const data = event.data; 
-            
-            // Ha az üzenet a fizetésre való átirányítást kéri, navigálunk.
-            if (data.type === "redirect_to_payment") { 
-                console.log("Átirányítás a fizetési oldalra: ", data.url);
-                window.location.href = data.url; 
-            } 
-        });
+        //
     </script>
 </body>
 </html>
