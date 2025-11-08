@@ -104,9 +104,8 @@
     <header class="w-full py-4 px-4 md:px-8 fixed top-0 z-10 bg-gray-200/50 backdrop-blur-md">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <span class="text-xl font-bold font-[var(--font-heading)] tracking-wider text-[var(--color-accent)]">Habityield.</span>
-            <!-- Navigációs link (Fallback a Typeformhoz) -->
-            <!-- MÓDOSÍTVA: A Typeform popup gombjának ID-je van rajta -->
-            <a href="#cta" id="cta-header-popup" class="hidden sm:block text-sm font-semibold hover:text-[var(--color-accent)] transition duration-200"
+            <!-- Navigációs link - JAVÍTVA: Eltávolítva az href attribútum a navigáció megelőzésére. -->
+            <a id="cta-header-popup" class="hidden sm:block text-sm font-semibold hover:text-[var(--color-accent)] transition duration-200 cursor-pointer"
                data-tf-popup="01K9HXEPX873JT5145YTQP43XD" data-tf-size="70" data-tf-auto-close>Stratégiai Hívás</a>
         </div>
     </header>
@@ -166,8 +165,8 @@
                 <p class="mb-6 text-xl text-gray-700 max-w-3xl mx-auto">
                     Készen állsz arra, hogy a belső rendszereidet a legmagasabb szintre optimalizáld?
                 </p>
-                <!-- CTA Gomb 1 - MÓDOSÍTVA: Hozzáadva a data-tf-popup attribútum, ami elindítja a Typeform modálist -->
-                <button id="cta-typeform-popup" class="cta-button inline-block py-5 px-12 rounded-xl text-[var(--color-text-dark)] font-extrabold text-xl uppercase tracking-wider shadow-2xl flex items-center justify-center space-x-3 mx-auto"
+                <!-- CTA Gomb 1 - JAVÍTVA: Hozzáadva a type="button" a biztonság kedvéért. -->
+                <button id="cta-typeform-popup" type="button" class="cta-button inline-block py-5 px-12 rounded-xl text-[var(--color-text-dark)] font-extrabold text-xl uppercase tracking-wider shadow-2xl flex items-center justify-center space-x-3 mx-auto"
                         data-tf-popup="01K9HXEPX873JT5145YTQP43XD" data-tf-size="70" data-tf-auto-close>
                     <!-- Inline SVG Icon (Calendar/Booking) -->
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
@@ -356,8 +355,8 @@
                 </li>
             </ul>
 
-            <!-- CTA Gomb 2 - MÓDOSÍTVA: Hozzáadva a data-tf-popup attribútum -->
-            <button id="cta-typeform-popup-2" class="cta-button inline-block py-5 px-12 rounded-xl text-[var(--color-text-dark)] font-extrabold text-xl uppercase tracking-wider shadow-2xl flex items-center justify-center space-x-3 mx-auto"
+            <!-- CTA Gomb 2 - JAVÍTVA: Hozzáadva a type="button" a biztonság kedvéért. -->
+            <button id="cta-typeform-popup-2" type="button" class="cta-button inline-block py-5 px-12 rounded-xl text-[var(--color-text-dark)] font-extrabold text-xl uppercase tracking-wider shadow-2xl flex items-center justify-center space-x-3 mx-auto"
                     data-tf-popup="01K9HXEPX873JT5145YTQP43XD" data-tf-size="70" data-tf-auto-close>
                 <!-- Inline SVG Icon (Calendar/Booking) -->
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
