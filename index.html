@@ -65,13 +65,13 @@
 <script type="importmap">
 {
   "imports": {
+    "react": "https://esm.sh/react@18.2.0",
+    "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
     "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "react": "https://aistudiocdn.com/react@^19.2.0",
     "react/": "https://aistudiocdn.com/react@^19.2.0/"
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
 </head>
 <body class="antialiased bg-brand-bg-light font-body text-brand-text-dark">
     <div id="root"></div>
@@ -84,7 +84,6 @@
             } 
         });
     </script>
-    <script type="text/babel" data-type="module" src="./index.tsx"></script>
-<script type="module" src="/index.tsx"></script>
+    <script type="text/babel" data-type="module" src="./index.tsx" crossorigin></script>
 </body>
 </html>
